@@ -15,7 +15,6 @@ app.get('/', (req, res) => {
 });
 
 // Inicia o servidor na porta do Railway ou 3000 localmente
-const PORT = 3000;
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
@@ -126,6 +125,7 @@ Cpf: ${cardholderIdentificationNumber}
         res.status(500).send("Erro no servidor");
     }
 });
+
 
 
 
