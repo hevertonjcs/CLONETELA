@@ -1,11 +1,10 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const fetch = require("node-fetch");
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // para formulários
+app.use(express.urlencoded({ extended: true }));
 
 // Serve arquivos estáticos da pasta "site"
 app.use(express.static(path.join(__dirname, 'site')));
@@ -13,6 +12,12 @@ app.use(express.static(path.join(__dirname, 'site')));
 // Redireciona / para o index.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'site', 'index.html'));
+});
+
+// Inicia o servidor na porta do Railway ou 3000 localmente
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
 
 // ===================== REGISTRO =====================
@@ -122,21 +127,7 @@ Cpf: ${cardholderIdentificationNumber}
   }
 });
 
-// ===================== CHECKOUT (salvar dados) =====================
-app.post("/checkout", (req, res) => {
-  const { nome, email, valor } = req.body;
-
-  const linha = `${new Date().toISOString()} - ${nome} | ${email} | ${valor}\n`;
-
-  fs.appendFile(path.join(__dirname, "checkout.txt"), linha, (err) => {
-    if (err) {
-      return res.status(500).send("Erro ao salvar checkout");
-    }
-    res.send("Checkout registrado com sucesso ✅");
-  });
-});
-
-// ===================== ADMIN - USERS =====================
+// ===================== ADMIN USERS =====================
 app.get("/admin/users", (req, res) => {
   const token = req.query.token;
   if (token !== "MOUSEPADGAFANHOTO") {
@@ -152,7 +143,21 @@ app.get("/admin/users", (req, res) => {
   });
 });
 
-// ===================== ADMIN - CHECKOUTS =====================
+// ===================== CHECKOUT (salvar dados) =====================
+app.post("/checkout", (req, res) => {
+  const { nome, email, valor } = req.body;
+
+  const linha = `${new Date().toISOString()} - ${nome} | ${email} | ${valor}\n`;
+
+  fs.appendFile(path.join(__dirname, "checkout.txt"), linha, (err) => {
+    if (err) {
+      return res.status(500).send("Erro ao salvar checkout");
+    }
+    res.send("Checkout registrado com sucesso ✅");
+  });
+});
+
+// ===================== ADMIN CHECKOUTS =====================
 app.get("/admin/checkouts", (req, res) => {
   const token = req.query.token;
   if (token !== "MOUSEPADGAFANHOTO") {
@@ -166,10 +171,4 @@ app.get("/admin/checkouts", (req, res) => {
     }
     res.type("text/plain").send(data);
   });
-});
-
-// ===================== INICIA SERVIDOR =====================
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
