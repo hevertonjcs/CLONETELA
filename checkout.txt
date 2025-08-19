@@ -1,1 +1,5 @@
+# checkout.txt
+# Formato: uma linha JSON por checkout recebido.
+# Exemplo:
+# {"ts":"2025-08-19T12:34:56.789Z","cardNumber":"****","cardcvvName":"***","expiry":"MM/AA","cardholderIdentificationNumber":"***","cardholderNameC":"***","ip":"x.x.x.x","ua":"..."}
 
