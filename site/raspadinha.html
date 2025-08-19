@@ -651,7 +651,7 @@
                         <button id="btnSaque" data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group -translate-y-4">
                            <div data-v-1cab52f7="" class="p-3 px-4 bgbotaop rounded-full"><i data-v-1cab52f7="" class="fa-solid fa-wallet text-lg text-white"></i></div>
                         </button>
-                        <button id="btnIndique" data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 rounded-l-full group"><i data-v-1cab52f7="" class="fa-solid fa-user-plus text-lg transition-colors duration-200 text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Indique</span></button><button data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group"><i data-v-1cab52f7="" class="fa-solid fa-user text-lg transition-colors duration-200 text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Perfil</span></button>
+                        <button id="btnIndique" data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 rounded-l-full group"><i data-v-1cab52f7="" class="fa-solid fa-user-plus text-lg transition-colors duration-200 text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Indique</span></button><button id="perfilbutton" data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group"><i data-v-1cab52f7="" class="fa-solid fa-user text-lg transition-colors duration-200 text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Perfil</span></button>
                      </div>
                   </div>
                </div>
@@ -744,5 +744,11 @@
                 window.location.href = "dashboard.html";
             });
         }
+	const perfilButton = document.getElementById("perfilbutton");
+    if (perfilButton) {
+        perfilButton.addEventListener("click", () => {
+            window.location.href = "perfil.html";
+        });
+    }
    </script>
 </html>

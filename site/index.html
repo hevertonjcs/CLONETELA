@@ -872,7 +872,7 @@
                               <button id="saquebutton" data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group -translate-y-4">
                                  <div data-v-1cab52f7="" class="p-3 px-4 bgbotaop rounded-full"><i data-v-1cab52f7="" class="fa-solid fa-wallet text-lg text-white"></i></div>
                               </button>
-                              <button data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group"><i data-v-1cab52f7="" class="fa-solid fa-arrow-right-to-bracket text-lg text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Registrar</span></button><button data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group"><i data-v-1cab52f7="" class="fa-solid fa-user text-lg transition-colors duration-200 text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Perfil</span></button>
+                              <button id="registermobBtn" data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group"><i data-v-1cab52f7="" class="fa-solid fa-arrow-right-to-bracket text-lg text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Registrar</span></button><button id="perfilbutton" data-v-1cab52f7="" type="button" class="inline-flex flex-col items-center justify-center px-5 group"><i data-v-1cab52f7="" class="fa-solid fa-user text-lg transition-colors duration-200 text-[#ffffff]"></i><span data-v-1cab52f7="" class="text-[11px]" style="color: rgb(255, 255, 255);">Perfil</span></button>
                            </div>
                         </div>
                      </div>
@@ -985,6 +985,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (backdrop) backdrop.style.display = 'block';
       console.log('Modal de registro aberto');
     }
+  });
+  
+  const registerBtn = document.getElementById('registermobBtn');
+
+  registerBtn.addEventListener('click', () => {
+    if (modalRegister) modalRegister.style.display = 'flex';
+    if (backdrop) backdrop.style.display = 'block';
   });
 
   // FECHAR LOGIN

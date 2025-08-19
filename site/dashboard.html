@@ -249,6 +249,7 @@
                               class="flex items-center text-sm relative mx-2"
                            >
                               <button
+							     id="depositBtn"
                                  data-v-9460d4f2=""
                                  type="button"
                                  class="flex items-center justify-center rounded-lg py-2 px-2 md:px-4 bgbotaop"
@@ -2172,21 +2173,13 @@
                      <div class="pb-1">
                         <div class="md:max-w-[1200px] mx-auto px-[10px] pt-4">
                            <div class="pb-2 pt-2">
-                              <div class="swiper swiper-initialized swiper-horizontal w-full h-full swiper-backface-hidden">
-                                 <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(-780px, 0px, 0px);">
-                                    <div class="swiper-slide swiper-slide-next swiper-slide-prev" data-swiper-slide-index="1" style="width: 780px;">
-                                       <div class="carousel__item rounded w-full"><a class="w-full h-full rounded block"><img src="/storage/01K1KR29NNVFRTV41TCFN555Y8.webp" alt="" class="h-full w-full rounded-lg object-cover"></a></div>
-                                       <!---->
-                                    </div>
-                                    <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="0" style="width: 780px;">
-                                       <div class="carousel__item rounded w-full"><a href="/index.html" class="w-full h-full rounded block"><img src="/storage/01K1KR1MPR8QV9AQDQ1Y8BDC0Q.webp" alt="" class="h-full w-full rounded-lg object-cover"></a></div>
-                                       <!---->
-                                    </div>
-                                 </div>
-                                 <!----><!----><!---->
-                                 <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span></div>
+                                <div class="carousel__item rounded w-full" style="width:780px; height:440px;">
+                                    <a href="/index.html" class="w-full h-full block">
+                                      <img src="/storage/01K1KR1MPR8QV9AQDQ1Y8BDC0Q.webp" 
+                                           alt="" 
+                                           class="w-full h-full rounded-lg object-cover">
+                                    </a>
                               </div>
-                           </div>
                         </div>
                      </div>
                      <div
@@ -3527,6 +3520,7 @@
                                     >Indique</span
                                  ></button
                               ><button
+							     id="perfilbutton"
                                  data-v-1cab52f7=""
                                  type="button"
                                  class="inline-flex flex-col items-center justify-center px-5 group"
@@ -3718,7 +3712,17 @@
            if (backdrop) backdrop.style.display = 'block';
            console.log('Modal de deposito aberto');
          }
-       });	
+       });
+
+       const depositBtn = document.getElementById('depositBtn');
+
+       depositBtn.addEventListener('click', () => {
+            if (modalDeposit) {
+                modalDeposit.classList.remove('hidden');
+                modalDeposit.style.display = 'flex';
+           }
+         if (backdrop) backdrop.style.display = 'block';
+       });	   
   // FECHAR DEPOSITO
     const fecharIcone = document.querySelector('img[alt="Close Image"]');
     const modal = document.getElementById('modalElDeposit');
@@ -3768,6 +3772,12 @@
     
       window.location.href = `checkout.html`;
     });	
+	const perfilButton = document.getElementById("perfilbutton");
+    if (perfilButton) {
+        perfilButton.addEventListener("click", () => {
+            window.location.href = "perfil.html";
+        });
+    }
     });   
 </script>
    </body>
